@@ -1,0 +1,28 @@
+{
+  "name": "workers-qwik-typescript",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.22.0" },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "npm run build.client && npm run build.server",
+    "build.client": "vite build",
+    "build.server": "vite build --config adapters/cloudflare-workers/vite.config.ts",
+    "cf-typegen": "wrangler types --config wrangler.jsonc",
+    "check": "npm run cf-typegen && tsc --noEmit && npm run build && wrangler deploy --config wrangler.jsonc --dry-run",
+    "bundle": "wrangler deploy --config wrangler.jsonc --dry-run --outdir server/worker-bundle",
+    "start": "wrangler dev --config wrangler.jsonc",
+    "preview": "npm run build && npm run start",
+    "deploy": "npm run build && wrangler deploy --config wrangler.jsonc"
+  },
+  "dependencies": {
+    "@builder.io/qwik": "1.20.1",
+    "@builder.io/qwik-city": "1.20.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.7.0",
+    "typescript": "6.0.3",
+    "vite": "7.3.6",
+    "wrangler": "4.147.0"
+  }
+}
